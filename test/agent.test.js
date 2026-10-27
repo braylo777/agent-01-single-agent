@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { runAgent, parse, TOOLS } from "../src/agent.js";
+import { runAgent, parse, TOOLS, calc } from "../src/agent.js";
 
 test("parse action/answer", () => {
   assert.deepEqual(parse("ACTION: calculator | 2+2"), { type: "action", tool: "calculator", input: "2+2" });
@@ -16,3 +16,4 @@ test("step limit", async () => {
   const r = await runAgent("x", async () => "ACTION: now |", 2);
   assert.equal(r.answer, "Step limit reached.");
 });
+test("calc precedence", () => { assert.equal(calc("2+3*(4-1)"), 11); assert.equal(calc("-2*3"), -6); });
