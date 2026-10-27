@@ -1,0 +1,11 @@
+name = "agent-01-single-agent"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[ai]
+binding = "AI"   # Workers AI free tier (10k neurons/day), no API keys
+
+[[rules]]
+type = "Text"
+globs = ["**/*.html"]
+fallthrough = true
