@@ -1,0 +1,94 @@
+{
+ "project": "agent-01-single-agent",
+ "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+ "target": "https://agent-01-single-agent.braylo777.workers.dev",
+ "run_at": "2026-10-28T00:28Z (approx.)",
+ "code": "post-fix (this commit)",
+ "note": "Recovered from the eval console log. The full per-case results.json from this run was lost when the build machine was restored from a snapshot, and the shared free Workers AI daily allowance was exhausted before it could be re-run. Only the cases printed before the run stopped are included; numbers are exactly as logged.",
+ "cases": [
+  {
+   "id": "m01",
+   "pass": true,
+   "ms": 804,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m02",
+   "pass": true,
+   "ms": 869,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m03",
+   "pass": true,
+   "ms": 641,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m04",
+   "pass": true,
+   "ms": 4977,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m05",
+   "pass": true,
+   "ms": 808,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m06",
+   "pass": true,
+   "ms": 833,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m07",
+   "pass": true,
+   "ms": 982,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m08",
+   "pass": true,
+   "ms": 1015,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m09",
+   "pass": true,
+   "ms": 999,
+   "tools_used": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m10",
+   "pass": true,
+   "ms": 700,
+   "tools_used": [
+    "calculator"
+   ]
+  }
+ ],
+ "summary": {
+  "n": 10,
+  "passed": 10
+ }
+}
