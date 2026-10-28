@@ -2,7 +2,7 @@
 export const MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 export const TOOLS = {
-  calculator: (expr) => String(calc(expr)),
+  calculator: (expr) => String(+calc(expr).toPrecision(12)), // trim float noise
   now: () => new Date().toISOString(),
 };
 
@@ -22,11 +22,12 @@ export function calc(expr) {
 }
 
 export const SYSTEM = `You are a helpful single agent. Tools: calculator(expr), now().
-To use a tool reply ONLY: ACTION: <tool> | <input>
+To use a tool reply ONLY: ACTION: <tool> | <input>   e.g. ACTION: calculator | 987654 / 6
+After an OBSERVATION, reply with ANSWER unless another tool call is truly needed.
 Otherwise reply: ANSWER: <final answer>`;
 
 export function parse(text) {
-  const a = text.match(/ACTION:\s*(\w+)\s*\|?\s*(.*)/s);
+  const a = text.match(/ACTION:\s*(\w+)\s*(?:\([^)]*\))?\s*\|?\s*([^\n]*)/);  // tolerates "calculator(expr) | 2+2"
   if (a) return { type: "action", tool: a[1], input: a[2].trim() };
   const f = text.match(/ANSWER:\s*(.*)/s);
   return { type: "answer", text: (f ? f[1] : text).trim() };

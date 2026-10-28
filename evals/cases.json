@@ -1,0 +1,195 @@
+{
+ "project": "agent-01-single-agent",
+ "url": "https://agent-01-single-agent.braylo777.workers.dev",
+ "endpoint": "/api/ask",
+ "field": "question",
+ "kind": "agent",
+ "cases": [
+  {
+   "id": "m01",
+   "category": "math",
+   "input": "What is 17*23 + 4?",
+   "expect_any": [
+    "395"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m02",
+   "category": "math",
+   "input": "What is (125 - 37) * 3?",
+   "expect_any": [
+    "264"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m03",
+   "category": "math",
+   "input": "Compute 987654 / 6.",
+   "expect_any": [
+    "164609"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m04",
+   "category": "math",
+   "input": "What is 15% of 860?",
+   "expect_any": [
+    "129"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m05",
+   "category": "math",
+   "input": "What is 2.5 * 4.2 - 1?",
+   "expect_any": [
+    "9.5"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m06",
+   "category": "math",
+   "input": "What is 123456 mod 97?",
+   "expect_any": [
+    "72"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m07",
+   "category": "math",
+   "input": "If I buy 7 items at $13.49 each, what is the total?",
+   "expect_any": [
+    "94.43"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m08",
+   "category": "math",
+   "input": "What is (48 + 52) * (19 - 7) / 4?",
+   "expect_any": [
+    "300"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m09",
+   "category": "math",
+   "input": "What is 3141 * 2718?",
+   "expect_any": [
+    "8537238"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "m10",
+   "category": "math",
+   "input": "Subtract 4589 from 10000.",
+   "expect_any": [
+    "5411"
+   ],
+   "tools": [
+    "calculator"
+   ]
+  },
+  {
+   "id": "t01",
+   "category": "time",
+   "input": "What is today's date in UTC? Use your clock tool.",
+   "expect_any": [
+    "2026"
+   ],
+   "tools": [
+    "now"
+   ]
+  },
+  {
+   "id": "t02",
+   "category": "time",
+   "input": "What year is it right now according to your clock tool?",
+   "expect_any": [
+    "2026"
+   ],
+   "tools": [
+    "now"
+   ]
+  },
+  {
+   "id": "k01",
+   "category": "no-tool",
+   "input": "What is the capital of Japan?",
+   "expect_any": [
+    "Tokyo"
+   ],
+   "tools": []
+  },
+  {
+   "id": "k02",
+   "category": "no-tool",
+   "input": "What is the chemical symbol for gold?",
+   "expect_any": [
+    "Au"
+   ],
+   "tools": []
+  },
+  {
+   "id": "k03",
+   "category": "no-tool",
+   "input": "Who wrote the play Romeo and Juliet?",
+   "expect_any": [
+    "Shakespeare"
+   ],
+   "tools": []
+  },
+  {
+   "id": "k04",
+   "category": "no-tool",
+   "input": "What planet is known as the Red Planet?",
+   "expect_any": [
+    "Mars"
+   ],
+   "tools": []
+  },
+  {
+   "id": "k05",
+   "category": "no-tool",
+   "input": "Translate 'thank you' into Spanish.",
+   "expect_any": [
+    "gracias"
+   ],
+   "tools": []
+  },
+  {
+   "id": "k06",
+   "category": "no-tool",
+   "input": "How many days are in a leap year?",
+   "expect_any": [
+    "366"
+   ],
+   "tools": []
+  }
+ ]
+}

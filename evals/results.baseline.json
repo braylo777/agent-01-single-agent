@@ -1,0 +1,316 @@
+{
+  "project": "agent-01-single-agent",
+  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "target": "https://agent-01-single-agent.braylo777.workers.dev",
+  "run_at": "2026-10-28T00:23:35.331Z",
+  "latency_note": "end-to-end HTTP from the eval machine to the live Worker",
+  "metrics": {
+    "n": 18,
+    "http_200": 18,
+    "pass_rate": 0.7222222222222222,
+    "answer_accuracy": 0.7222222222222222,
+    "tool_selection_accuracy": 1,
+    "tool_cases": 18,
+    "latency_ms_p50": 1080,
+    "latency_ms_p95": 4647
+  },
+  "cases": [
+    {
+      "id": "m01",
+      "category": "math",
+      "input": "What is 17*23 + 4?",
+      "status": 200,
+      "ms": 904,
+      "tools_used": [
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "395"
+    },
+    {
+      "id": "m02",
+      "category": "math",
+      "input": "What is (125 - 37) * 3?",
+      "status": 200,
+      "ms": 1080,
+      "tools_used": [
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "264"
+    },
+    {
+      "id": "m03",
+      "category": "math",
+      "input": "Compute 987654 / 6.",
+      "status": 200,
+      "ms": 1597,
+      "tools_used": [
+        "calculator",
+        "calculator",
+        "calculator",
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": false,
+      "tool_ok": true,
+      "pass": false,
+      "answer": "Step limit reached."
+    },
+    {
+      "id": "m04",
+      "category": "math",
+      "input": "What is 15% of 860?",
+      "status": 200,
+      "ms": 1410,
+      "tools_used": [
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "129"
+    },
+    {
+      "id": "m05",
+      "category": "math",
+      "input": "What is 2.5 * 4.2 - 1?",
+      "status": 200,
+      "ms": 1281,
+      "tools_used": [
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "9.5"
+    },
+    {
+      "id": "m06",
+      "category": "math",
+      "input": "What is 123456 mod 97?",
+      "status": 200,
+      "ms": 1880,
+      "tools_used": [
+        "calculator",
+        "calculator",
+        "calculator",
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": false,
+      "tool_ok": true,
+      "pass": false,
+      "answer": "Step limit reached."
+    },
+    {
+      "id": "m07",
+      "category": "math",
+      "input": "If I buy 7 items at $13.49 each, what is the total?",
+      "status": 200,
+      "ms": 1885,
+      "tools_used": [
+        "calculator",
+        "calculator",
+        "calculator",
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": false,
+      "tool_ok": true,
+      "pass": false,
+      "answer": "Step limit reached."
+    },
+    {
+      "id": "m08",
+      "category": "math",
+      "input": "What is (48 + 52) * (19 - 7) / 4?",
+      "status": 200,
+      "ms": 987,
+      "tools_used": [
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "300"
+    },
+    {
+      "id": "m09",
+      "category": "math",
+      "input": "What is 3141 * 2718?",
+      "status": 200,
+      "ms": 3074,
+      "tools_used": [
+        "calculator",
+        "calculator",
+        "calculator",
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": false,
+      "tool_ok": true,
+      "pass": false,
+      "answer": "Step limit reached."
+    },
+    {
+      "id": "m10",
+      "category": "math",
+      "input": "Subtract 4589 from 10000.",
+      "status": 200,
+      "ms": 1716,
+      "tools_used": [
+        "calculator",
+        "calculator",
+        "calculator",
+        "calculator"
+      ],
+      "expected_tools": [
+        "calculator"
+      ],
+      "answer_ok": false,
+      "tool_ok": true,
+      "pass": false,
+      "answer": "Step limit reached."
+    },
+    {
+      "id": "t01",
+      "category": "time",
+      "input": "What is today's date in UTC? Use your clock tool.",
+      "status": 200,
+      "ms": 1761,
+      "tools_used": [
+        "now"
+      ],
+      "expected_tools": [
+        "now"
+      ],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "2026-10-28"
+    },
+    {
+      "id": "t02",
+      "category": "time",
+      "input": "What year is it right now according to your clock tool?",
+      "status": 200,
+      "ms": 1014,
+      "tools_used": [
+        "now"
+      ],
+      "expected_tools": [
+        "now"
+      ],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "2026"
+    },
+    {
+      "id": "k01",
+      "category": "no-tool",
+      "input": "What is the capital of Japan?",
+      "status": 200,
+      "ms": 288,
+      "tools_used": [],
+      "expected_tools": [],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "Tokyo"
+    },
+    {
+      "id": "k02",
+      "category": "no-tool",
+      "input": "What is the chemical symbol for gold?",
+      "status": 200,
+      "ms": 494,
+      "tools_used": [],
+      "expected_tools": [],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "Au"
+    },
+    {
+      "id": "k03",
+      "category": "no-tool",
+      "input": "Who wrote the play Romeo and Juliet?",
+      "status": 200,
+      "ms": 430,
+      "tools_used": [],
+      "expected_tools": [],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "William Shakespeare"
+    },
+    {
+      "id": "k04",
+      "category": "no-tool",
+      "input": "What planet is known as the Red Planet?",
+      "status": 200,
+      "ms": 4647,
+      "tools_used": [],
+      "expected_tools": [],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "Mars"
+    },
+    {
+      "id": "k05",
+      "category": "no-tool",
+      "input": "Translate 'thank you' into Spanish.",
+      "status": 200,
+      "ms": 386,
+      "tools_used": [],
+      "expected_tools": [],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "Gracias"
+    },
+    {
+      "id": "k06",
+      "category": "no-tool",
+      "input": "How many days are in a leap year?",
+      "status": 200,
+      "ms": 630,
+      "tools_used": [],
+      "expected_tools": [],
+      "answer_ok": true,
+      "tool_ok": true,
+      "pass": true,
+      "answer": "366"
+    }
+  ]
+}

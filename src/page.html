@@ -1,5 +1,38 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Single Agent</title>
-<style>body{font-family:system-ui;max-width:640px;margin:40px auto;padding:0 16px;background:#0b1730;color:#eef}input,button{font-size:16px;padding:10px}input{width:70%}pre{background:#13234a;padding:12px;white-space:pre-wrap}</style></head>
-<body><h1>Single Agent (ReAct)</h1><p>Ask anything. Try: "What is 17*23 + 4?"</p>
-<form id=f><input id=q placeholder="Your question"><button>Ask</button></form><h3>Answer</h3><pre id=a></pre><h3>Trace</h3><pre id=t></pre>
-<script>f.onsubmit=async e=>{e.preventDefault();a.textContent="thinking…";t.textContent="";const r=await fetch("/api/ask",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({question:q.value})});const j=await r.json();a.textContent=j.answer||j.error;t.textContent=JSON.stringify(j.trace,null,2)}</script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Single Agent · Braylo AI portfolio</title>
+<style>
+:root{--navy:#0d1520;--panel:#141f2e;--cream:#efe9dc;--brass:#b39b70;--mute:#a9a291}
+*{box-sizing:border-box}body{margin:0;background:var(--navy);color:var(--cream);font:16px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:760px;margin:0 auto;padding:48px 20px}
+.k{color:var(--brass);letter-spacing:.14em;text-transform:uppercase;font-size:12px;font-weight:600}
+h1{font-family:Georgia,serif;font-weight:500;font-size:40px;margin:8px 0 10px}p.s{color:var(--mute);margin:0 0 28px}
+.card{background:var(--panel);border:1px solid #233246;border-radius:14px;padding:20px;margin:16px 0}
+textarea{width:100%;min-height:84px;resize:vertical;background:var(--navy);color:var(--cream);border:1px solid #2b3c52;border-radius:10px;padding:12px;font:inherit}
+textarea:focus{outline:2px solid var(--brass);border-color:transparent}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+button{font:inherit;cursor:pointer;border-radius:999px;border:1px solid var(--brass)}
+#go{background:var(--brass);color:var(--navy);font-weight:600;padding:10px 22px}#go:disabled{opacity:.6;cursor:wait}
+.chip{background:transparent;color:var(--cream);padding:6px 12px;font-size:13px;border-color:#3a4a60}.chip:hover{border-color:var(--brass)}
+h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin:0 0 10px}
+#a{white-space:pre-wrap;margin:0}#m{color:var(--mute);font-size:13px;margin-top:10px}
+ol{margin:0;padding-left:20px}li{margin:6px 0;color:var(--mute);font-size:14px}li b{color:var(--cream)}code{color:var(--brass)}
+footer{color:var(--mute);font-size:13px;margin-top:28px}a{color:var(--brass)}
+</style></head><body><main>
+<div class="k">Braylo · Agentic AI portfolio</div><h1>Single Agent</h1><p class="s">A ReAct-style agent on Llama 3.3 70B. It decides when to call a calculator or clock tool, reads the result, then answers.</p>
+<div class="card"><textarea id="q" aria-label="question">What is 17*23 + 4?</textarea>
+<div class="row"><button id="go">Run agent</button><button class="chip">What is 17*23 + 4?</button><button class="chip">What is (125 - 37) * 3?</button><button class="chip">What is today's date in UTC?</button><button class="chip">What is the capital of Japan?</button></div></div>
+<div class="card"><h2>Answer</h2><p id="a">Press “Run agent” to see a live answer.</p><div id="m"></div></div>
+<div class="card"><h2>Trace</h2><ol id="t"><li>Steps appear here.</li></ol></div>
+<footer>Runs on Cloudflare Workers AI (free tier), limited to 5 requests/min per visitor. Source: <a href="https://github.com/braylo777/agent-01-single-agent">github.com/braylo777/agent-01-single-agent</a></footer>
+</main><script>
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"})[c]);
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{$("q").value=b.textContent;run()});
+$("go").onclick=run;
+function step(s){if(s.tool)return `<b>tool · ${esc(s.tool)}</b> ${esc(JSON.stringify(s.input??s.args??""))} → <code>${esc(String(s.observation??s.result??"").slice(0,300))}</code>`;
+if(s.from)return `<b>${esc(s.from)} → ${esc(s.to)}</b> <span>(${s.ms} ms)</span> ${esc((typeof s.content==="string"?s.content:JSON.stringify(s.content)).slice(0,220))}`;
+return `<b>answer</b> ${esc(s.answer??JSON.stringify(s))}`}
+async function run(){const go=$("go");go.disabled=true;$("a").textContent="Thinking…";$("m").textContent="";$("t").innerHTML="";const t0=Date.now();
+try{const r=await fetch("/api/ask",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({question:$("q").value})});const j=await r.json();
+$("a").textContent=j.answer||j.error||"(no answer)";$("m").textContent=`HTTP ${r.status} · ${Date.now()-t0} ms`;
+const tr=j.trace||[];$("t").innerHTML=tr.length?tr.map(s=>`<li>${step(s)}</li>`).join(""):"<li>No tool calls: answered directly.</li>"}
+catch(e){$("a").textContent=String(e)}go.disabled=false}
+</script></body></html>
