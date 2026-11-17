@@ -25,14 +25,15 @@ flowchart LR
 4. The observation is appended and the loop repeats, up to 4 steps. Unknown tools and tool errors go back to the model as observations instead of crashing.
 5. The Worker returns the answer plus the full step trace.
 
-- `src/agent.js`: protocol, parser, tools and loop (LLM injected so tests run offline)
-- `src/index.js`: routes, rate limit, input cap
-- `src/page.html`: demo UI
+- `src/agent01/agent.py`: Python reference: protocol, parser, tools and loop (LLM injected so tests run offline)
+- `worker/src/agent.rs`: the same logic in Rust, runs in the Worker
+- `worker/src/worker_entry.rs`: routes, rate limit, input cap
+- `worker/src/page.rs`: demo UI (HTML kept as a Rust string)
 
 Guardrails: 5 requests/min per IP (Workers Rate Limiting), 500-character input cap, errors returned as JSON.
 
 ## Evaluation (live model)
-[`evals/run.mjs`](evals/run.mjs) sends every case in [`evals/cases.json`](evals/cases.json) to the **deployed** demo (Llama 3.3 70B fp8 on Workers AI) and scores it. A case passes when the response is HTTP 200, the answer contains the expected key fact(s) (case-insensitive), and the set of tools used equals the expected set (empty for questions that need no tool). Latency is end-to-end HTTP from the eval machine. The suite is deliberately small to stay inside the free daily Workers AI allowance, so treat the numbers as indicative.
+[`evals/run.py`](evals/run.py) sends every case in [`evals/cases.json`](evals/cases.json) to the **deployed** demo (Llama 3.3 70B fp8 on Workers AI) and scores it. A case passes when the response is HTTP 200, the answer contains the expected key fact(s) (case-insensitive), and the set of tools used equals the expected set (empty for questions that need no tool). Latency is end-to-end HTTP from the eval machine. The suite is deliberately small to stay inside the free daily Workers AI allowance, so treat the numbers as indicative.
 
 **Full run, 18 cases, before the eval-driven fixes** ([`evals/results.json`](evals/results.json), 2026-10-28T00:23:35.331Z):
 
@@ -43,7 +44,7 @@ Guardrails: 5 requests/min per IP (Workers Rate Limiting), 500-character input c
 | Tool-selection accuracy (set of tools used = expected set) | 100.0% (18/18) |
 | Latency p50 / p95 (end-to-end HTTP) | 1080 ms / 4647 ms |
 
-**Re-run after the fixes, partial: 10 cases** ([`evals/results.postfix-partial.json`](evals/results.postfix-partial.json)): 10/10 passed; the same 10 cases passed 5/10 before the fixes. The re-run stopped early when the build machine was restored, and the shared free Workers AI daily allowance ran out before a full re-run, so the post-fix numbers cover only these cases. `node evals/run.mjs` reproduces the full suite.
+**Re-run after the fixes, partial: 10 cases** ([`evals/results.postfix-partial.json`](evals/results.postfix-partial.json)): 10/10 passed; the same 10 cases passed 5/10 before the fixes. The re-run stopped early when the build machine was restored, and the shared free Workers AI daily allowance ran out before a full re-run, so the post-fix numbers cover only these cases. `python3 evals/run.py` reproduces the full suite.
 
 Failures in the full (pre-fix) run:
 - `m03` Compute 987654 / 6. → tools ['calculator', 'calculator', 'calculator', 'calculator']: Step limit reached.
@@ -55,16 +56,18 @@ Failures in the full (pre-fix) run:
 **What the evals caught:** The first full run exposed a real bug: Llama often wrote `ACTION: calculator(expr) | 987654 / 6`, so the parser sent `(expr) | …` to the calculator, every call errored, and the agent hit its step limit (5 of 10 math cases). The parser now accepts that form, the prompt includes an example, and a regression test locks it in.
 
 ## Tests
-15 offline unit tests (`node --test`), 15 passing. The LLM and HTTP APIs are mocked, so they run without a Cloudflare account.
+Python: 15 test functions (19 cases with parameters), all passing. Rust: 12 tests, all passing. A differential check of 411 calculator expressions gives identical output for the old JavaScript, the Python and the Rust code. The LLM and HTTP APIs are mocked, so they run without a Cloudflare account.
 
 ## Run it
 ```bash
-npm install
-npm test                    # unit tests, Node 20+
-npx wrangler dev            # local dev; Workers AI uses your Cloudflare login
-npx wrangler deploy         # free tier, no paid API keys
-node evals/run.mjs          # live eval against the demo (paced for the rate limit)
+python3 -m pytest                       # Python tests
+cd worker && cargo test                 # Rust tests
+cd worker && worker-build --release     # build the Worker (wasm)
+wrangler dev                            # local dev; Workers AI uses your Cloudflare login
+python3 evals/run.py                    # live eval against the demo (paced for the rate limit)
 ```
+
+The previous JavaScript version is on the `legacy-js` branch and the `pre-pycrust` tag.
 
 ## License
 MIT
